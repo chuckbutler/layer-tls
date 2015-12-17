@@ -41,7 +41,7 @@ def install():
 def check_ca_status():
     '''Called when the configuration values have changed.'''
     config = hookenv.config()
-     if data_changed('user_ca', config.get('root_certificate')):
+    if data_changed('user_ca', config.get('root_certificate')):
         remove_state('certificate authority available')
         if is_leader():
             root_cert = _decode(config.get('root_certificate'))
