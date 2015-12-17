@@ -12,6 +12,7 @@ from charms.reactive import remove_state
 from charms.reactive import set_state
 from charms.reactive import when
 from charms.reactive import when_not
+from charms.reactive.helpers import data_changed
 
 from charmhelpers.core import hookenv
 from charmhelpers.core import unitdata
@@ -40,7 +41,7 @@ def install():
 def check_ca_status():
     '''Called when the configuration values have changed.'''
     config = hookenv.config()
-    if config.changed('root_certificate'):
+     if data_changed('user_ca', config.get('root_certificate')):
         remove_state('certificate authority available')
         if is_leader():
             root_cert = _decode(config.get('root_certificate'))
@@ -230,7 +231,7 @@ def get_sans(ip_list=None, dns_list=None):
 def _decode(encoded):
     '''Base64 decode a string by handing any decoding errors.'''
     try:
-        return base64.b64decode(encoded)
+        return base64.b64decode(encoded).decode('UTF-8')
     except:
         hookenv.log('Error decoding string {0}'.format(encoded))
         raise
