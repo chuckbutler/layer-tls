@@ -108,6 +108,7 @@ def create_client_csr():
     with open('easy-rsa/easyrsa3/pki/issued/client.crt') as f:
         client_certificate = f.read()
     db.set('tls.client.certificate', client_certificate)
+    set_state('client certificate signed')
 
 
 @when('sign certificate signing request')
