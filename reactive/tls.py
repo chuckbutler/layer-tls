@@ -43,6 +43,11 @@ def configure_easyrsa():
         proceed generating the certificates and working with PKI '''
     set_state('easyrsa configured')
 
+@when('easyrsa reconfigured')
+def force_ca():
+    check_ca_status(force=True)
+    remove_state('easyrsa reconfigured')
+
 @when('easyrsa configured')
 def check_ca_status(force=False):
     '''Called when the configuration values have changed.'''
